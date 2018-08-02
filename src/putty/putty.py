@@ -4,19 +4,7 @@ import pyautogui
 import time
 import imp
 from awlib.autoit import *
-
-class TextArea(object):
-    buffer = []
-    def __init__(self):
-        self.buffer = []
-    def write(self, *args, **kwargs):
-        self.buffer.append(args)
-    def clear(self):
-        self.buffer = []
-    def show(self):
-        print buffer
-
-cmd_list=['clr\r', 'perr\r', 'pall\r']
+from awlib.io import *
 
 def automate_putty(args):
     app = args[0].getApp()
@@ -80,6 +68,24 @@ def send_cmd(args):
             com_inst.type_keys('\r')
             time.sleep(1)
 
+def findTitle(ai, pattern):
+    ai.findPID()
+    for exe in ai.exe_file:
+        app = ai.Conn(exe['pid'])
+        putty=app.PuTTY
+#        #save putty control info
+        stdout = sys.stdout
+        sys.stdout = TextArea()
+        putty.print_control_identifiers()
+        winspec=sys.stdout
+        sys.stdout = stdout
+        for el in winspec.buffer:
+            if el[0].find(pattern) > 0:
+                f1, f2 = el[0].split('=', 1)
+                title = f2.split(',')[0]
+                title = title.replace('"', '')
+                return title
+    return None
 
 
 def autoPutty(*args):
@@ -89,12 +95,17 @@ def autoPutty(*args):
     path = parseropt.getPath()
     times = parseropt.getTimes()
     pid = 0
+    title = None
 
     autoapp=Autoit(path)
-    autoapp.open()
-    pid = autoapp.getPID()
+    pid = autoapp.findPID()
 
-    if pid == 0:
+
+    if pid != 0:
+        title = findTitle(autoapp, com)
+
+    if title is None:
+        autoapp.open()
         autoapp.Run(automate_putty, autoapp, com)
     else:
         autoapp.Run(send_cmd, autoapp, file, times)
