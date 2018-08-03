@@ -5,6 +5,11 @@ import time
 import imp
 from awlib.autoit import *
 from awlib.io import *
+from pywinauto.findwindows    import find_window
+from pywinauto.win32functions import *
+#import WIN message type. e.g: SW_SHOW, SW_MINIMIZE
+from win32con import *
+
 
 def automate_putty(args):
     app = args[0].getApp()
@@ -70,8 +75,16 @@ def send_cmd(args):
 
 def findTitle(ai, pattern):
     ai.findPID()
+    pid = 0
+    WS_BASE=0x14EF0000
     for exe in ai.exe_file:
-        app = ai.Conn(exe['pid'])
+        pid = exe['pid']
+        app = ai.Conn(pid)
+        hwnd = find_window(process=pid)
+        winstl = GetWindowLong(hwnd, GWL_STYLE)
+        if (winstl - WS_BASE) == WS_MINIMIZE:
+            ShowWindow(hwnd, SW_RESTORE)
+
         putty=app.PuTTY
 #        #save putty control info
         stdout = sys.stdout
