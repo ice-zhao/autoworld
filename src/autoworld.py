@@ -6,6 +6,7 @@ import psutil
 from optparse import OptionParser
 
 from putty.putty import *
+from tools.vxworks.vxshell import *
 
 class ParserOptions(object):
     def __init__(self, options):
@@ -43,7 +44,8 @@ if __name__ == '__main__':
     options, args = parser.parse_args(sys.argv)
     parseropt=ParserOptions(options)
 
-    autoPutty(parseropt)
+#    autoPutty(parseropt)
+    autoVxworkshell(parseropt)
 
 
 

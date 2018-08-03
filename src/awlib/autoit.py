@@ -14,12 +14,14 @@ class Autoit(object):
         self.__pid = 0
         self.exe_file = []
         self.__conn = False
+        self.__bare_path= self.__path.split(' ')[0]
+        self.cmd=[]
 
 
     def open(self, title_str=None):
         #ensure one App instance when conn param is True
-        if not os.path.exists(self.__path) or \
-           not os.access(self.__path, os.X_OK):
+        if not os.path.exists(self.__bare_path) or \
+           not os.access(self.__bare_path, os.X_OK):
             return False
 
 #       connection is prefer.
@@ -34,7 +36,8 @@ class Autoit(object):
     def findPID(self):
         pid = 0
         self.exe_file = []
-        basename = os.path.basename(self.__path)
+        bare_path = self.__path.split(' ')[0]
+        basename = os.path.basename(bare_path)
         for p in psutil.process_iter():
             pinfo = p.as_dict(attrs=['pid', 'name', 'username'])
             name=pinfo['name']
@@ -68,7 +71,19 @@ class Autoit(object):
         self.__app = Application.connect(self.__app, process=pid)
         return self.__app
 
+    def parseCMDfile(self, file):
+        self.cmd = []
+        if not os.path.exists(file):
+            return False
 
+        f = open(file, "r")
+        while True:
+            line = f.readline()
+            if not line:
+                f.close()
+                break
+            self.cmd.append(line)
+        return True
 
 
 

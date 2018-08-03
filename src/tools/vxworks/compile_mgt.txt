@@ -1,0 +1,4 @@
+D:\DevelopmentTools\windriver\wrenv.exe -p vxworks-6.8
+cd E:\Projects\hv\Transformer\FW\ur_strip_down\Tools\BuildCmd
+build_220.bat
+mgt

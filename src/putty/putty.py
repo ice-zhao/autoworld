@@ -101,6 +101,7 @@ def findTitle(ai, pattern):
     return None
 
 
+#-p COM3 -f "cmd.txt" -P "D:\DevelopmentTools\PuTTY\putty.exe"
 def autoPutty(*args):
     parseropt = args[0]
     com = parseropt.getCOMPort()
