@@ -62,6 +62,10 @@ def send_cmd(args):
         if not line:
             f.close()
             break
+        if line.find('(') > 0:
+            line = line.replace('(', '+9');
+        if line.find(')') > 0:
+            line = line.replace(')', '+0');
         cmd_list.append(line)
 
     com_inst=app.PuTTY

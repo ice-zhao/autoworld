@@ -3,6 +3,3 @@ cd E:\Projects\hv\Transformer\FW\ur_strip_down\Tools\BuildCmd
 mur7 clean main_mgt
 build_220.bat
 mgt
-
-
-

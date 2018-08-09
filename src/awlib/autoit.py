@@ -82,6 +82,10 @@ class Autoit(object):
             if not line:
                 f.close()
                 break
+            if line.find('(') > 0:
+                line = line.replace('(', '+9');
+            if line.find(')') > 0:
+                line = line.replace(')', '+0');
             self.cmd.append(line)
         return True
 

@@ -25,6 +25,9 @@ class ParserOptions(object):
     def getTimes(self):
         return self.times
 
+    def getTool(self):
+        return self.tool
+
 if __name__ == '__main__':
     parser=OptionParser(version="1.0.0",
     usage="""%prog -p path""")
@@ -41,11 +44,18 @@ if __name__ == '__main__':
     parser.add_option("-t","--times", help="execute command list until specific times.",
                       action="store", dest="times", default = 1)
 
+    parser.add_option("-T","--tool", help="specify which tool will be automated.",
+                      action="store", dest="tool", default = 'putty')
+
     options, args = parser.parse_args(sys.argv)
     parseropt=ParserOptions(options)
 
-#    autoPutty(parseropt)
-    autoVxworkshell(parseropt)
+    tool = parseropt.getTool()
+    if tool == 'putty':
+        autoPutty(parseropt)
+
+    if tool == 'cmd':
+        autoVxworkshell(parseropt)
 
 
 

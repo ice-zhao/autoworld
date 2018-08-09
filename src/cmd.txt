@@ -1,2 +1,1 @@
-clr
-perr
+setTestPlate(1)

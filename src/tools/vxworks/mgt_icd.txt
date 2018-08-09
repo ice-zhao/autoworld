@@ -1,0 +1,5 @@
+cd E:\Projects\hv\Transformer\FW\autoworld\src
+mgt.bat
+cd E:\Projects\hv\Transformer\FW\ICD
+update-configured-files.bat
+
