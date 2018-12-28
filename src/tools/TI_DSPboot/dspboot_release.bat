@@ -1,0 +1,1 @@
+python dspboot.py -p E:\PersionalDir\workspace_v5_5\C6746_220\Release\C6746_220.out

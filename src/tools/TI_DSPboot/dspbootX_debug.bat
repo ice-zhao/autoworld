@@ -1,0 +1,1 @@
+python dspbootX.py -p E:\PersionalDir\workspace_v5_5\C6746_220\Debug\C6746_220.out

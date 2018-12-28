@@ -1,0 +1,5 @@
+cd E:\Projects\hv\Transformer\FW\autoworld\src
+mgt.bat
+cd E:\Projects\hv\Transformer\FW\ur_strip_down\Configuration Files\Line\Double Bus
+update-configured-files.bat
+
