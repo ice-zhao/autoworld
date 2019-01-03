@@ -1,0 +1,1 @@
+D:\Development\Python27\python autoworld.py -p COM5 -f "ok6410.txt" -P "G:\DevelopmentSupport\Tools\Gow\bin\putty.exe"
