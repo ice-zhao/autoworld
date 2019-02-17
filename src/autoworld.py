@@ -7,6 +7,8 @@ from optparse import OptionParser
 
 from putty.putty import *
 from tools.vxworks.vxshell import *
+from tools.windows.cmd import *
+
 
 class ParserOptions(object):
     def __init__(self, options):
@@ -56,6 +58,9 @@ if __name__ == '__main__':
 
     if tool == 'cmd':
         autoVxworkshell(parseropt)
+
+    if tool == 'wincmd':
+        autoWindowsShell(parseropt)
 
 
 
