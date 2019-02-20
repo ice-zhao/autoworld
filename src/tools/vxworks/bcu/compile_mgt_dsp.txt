@@ -1,0 +1,8 @@
+cd E:\Projects\hv\tools\DSPbootassisttool
+dspboot_debug.bat
+copy /Y E:\Projects\hv\tools\DSPbootassisttool\HPI_BootTable.h  E:\Projects\bcu\code\Main_MGT\BSP8358\HPI_BootTable.h
+D:\DevelopmentTools\windriver\wrenv.exe -p vxworks-6.8
+cd E:\Projects\bcu\code\Tools\BuildCmd
+build_220.bat
+mgt
+
