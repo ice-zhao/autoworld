@@ -1,0 +1,1 @@
+python autoworld.py -p COM17 -f "prt_loadsetting.txt" -P "D:\DevelopmentTools\PuTTY\putty.exe"

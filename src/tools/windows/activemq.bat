@@ -1,0 +1,1 @@
+python ../../autoworld.py -T "wincmd" -f "activemq.txt"
