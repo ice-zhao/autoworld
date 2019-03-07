@@ -1,0 +1,3 @@
+D:\DevelopmentTools\windriver\wrenv.exe -p vxworks-6.8
+cd E:\Projects\bcu\code\Tools\BuildCmd
+mur7 clean main_mgt
