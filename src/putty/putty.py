@@ -1,51 +1,55 @@
-import sys
-import os
-import pyautogui
 import time
-import imp
-from awlib.autoit import *
-from awlib.io import *
-from pywinauto.findwindows    import find_window
+
+import pyautogui
+from pywinauto.findwindows import find_window
 from pywinauto.win32functions import *
-#import WIN message type. e.g: SW_SHOW, SW_MINIMIZE
+# import WIN message type. e.g: SW_SHOW, SW_MINIMIZE
 from win32con import *
 
+from awlib.autoit import *
+from awlib.io import *
 
+
+# load an exist session from saved session list
 def automate_putty(args):
+    autoit = args[0]
     app = args[0].getApp()
     com = args[1]
     putty = app.PuttyConfiguration
 
-    #save putty control info
+    # save putty control info
     stdout = sys.stdout
     sys.stdout = TextArea()
     putty.print_control_identifiers()
-    winspec=sys.stdout
-    sys.stdout = stdout;
+    winspec = sys.stdout
+    sys.stdout = stdout
 
     left_offset = 5
     down_offset = 5
-    saved_session=[]
+    saved_session = []
     for tup in winspec.buffer:
         if tup[0].find('Saved Sessions') > -1:
             saved_session.append(tup)
 
-    locate=[]
+    locate = []
     for session in saved_session:
         if session[0].find('Edit') > -1:
-            grid =session[0][session[0].find('(')+1:session[0].find(')')].split(',')
+            grid = session[0][session[0].find('(') + 1:session[0].find(')')].split(',')
             for pos in grid:
-                pos=pos.strip()
+                pos = pos.strip()
                 locate.append(int(pos[1:]))
-            pyautogui.moveTo(locate[0]+left_offset, locate[1]+down_offset)
-            pyautogui.click(button='right')
+            pyautogui.moveTo(locate[0] + left_offset, locate[1] + down_offset)
+            pyautogui.click(button='left')
 
     putty.Edit3.type_keys(com)
+    listBox = putty.ListBox
+    listBox[com].select()
     putty.Load.click()
     putty.Open.click()
-    com_app=app.PuTTY
+    com_app = app.PuTTY
     com_app.type_keys('\r')
     return
+
 
 def send_cmd(args):
     app = args[0].getApp()
@@ -68,7 +72,7 @@ def send_cmd(args):
             line = line.replace(')', '+0');
         cmd_list.append(line)
 
-    com_inst=app.PuTTY
+    com_inst = app.PuTTY
     com_inst.type_keys('\r')
 
     for i in range(times):
@@ -77,10 +81,11 @@ def send_cmd(args):
             com_inst.type_keys('\r')
             time.sleep(1)
 
+
 def findTitle(ai, pattern):
     ai.findPID()
     pid = 0
-    WS_BASE=0x14EF0000
+    WS_BASE = 0x14EF0000
     for exe in ai.exe_file:
         pid = exe['pid']
         app = ai.Conn(pid)
@@ -89,12 +94,12 @@ def findTitle(ai, pattern):
         if (winstl - WS_BASE) == WS_MINIMIZE:
             ShowWindow(hwnd, SW_RESTORE)
 
-        putty=app.PuTTY
-#        #save putty control info
+        putty = app.PuTTY
+        #        #save putty control info
         stdout = sys.stdout
         sys.stdout = TextArea()
         putty.print_control_identifiers()
-        winspec=sys.stdout
+        winspec = sys.stdout
         sys.stdout = stdout
         for el in winspec.buffer:
             if el[0].find(pattern) > 0:
@@ -105,7 +110,7 @@ def findTitle(ai, pattern):
     return None
 
 
-#-p COM3 -f "cmd.txt" -P "D:\DevelopmentTools\PuTTY\putty.exe"
+# -p COM3 -f "cmd.txt" -P "D:\DevelopmentTools\PuTTY\putty.exe"
 def autoPutty(*args):
     parseropt = args[0]
     com = parseropt.getCOMPort()
@@ -115,9 +120,8 @@ def autoPutty(*args):
     pid = 0
     title = None
 
-    autoapp=Autoit(path)
+    autoapp = Autoit(path)
     pid = autoapp.findPID()
-
 
     if pid != 0:
         title = findTitle(autoapp, com)
@@ -127,14 +131,3 @@ def autoPutty(*args):
         autoapp.Run(automate_putty, autoapp, com)
     else:
         autoapp.Run(send_cmd, autoapp, file, times)
-
-
-
-
-
-
-
-
-
-
-
